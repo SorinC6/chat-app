@@ -1,12 +1,15 @@
-const server = require("http").createServer();
-const io = require("socket.io")(server);
-const SocketManager = require("./SocketManager");
+const app = require("express")();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 
-const PORT = process.env.PORT || 4000;
-io.on("Socket connection ", SocketManager);
-
-server.listen(PORT, () => {
-  console.log("Connected to port:", PORT);
+app.get("/", (req, res) => {
+  res.send("<h1>Hello from the Server : Woop Woop</h1>");
 });
 
-module.exports = io;
+io.on("connection", function(socket) {
+  console.log("user connected succesfullty");
+});
+
+http.listen(3001, () => {
+  console.log("server listening on port 3001 ");
+});

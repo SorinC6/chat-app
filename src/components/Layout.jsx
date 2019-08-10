@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
+import io from "socket.io-client";
+//const socketUrl = "http://localhost:3001";
 
+const Layout = props => {
+  // const [socket, setSocket] = useState(null);
+  useEffect(() => {
+    var socket = io(":3001");
+    socket.on("news", function(data) {
+      console.log(data);
+      socket.emit("my other event", { my: "data" });
+    });
+  }, []);
 
-const Layout = (props) => {
-    const {title} = props
-    return(
-        <div>
-            {title}
-        </div>
-    )
-}
+  // const initSocket = () => {
+  //   const socket = io(socketUrl);
+  //   socket.on("connect: ", () => {
+  //     console.log("Connected socket react comp");
+  //   });
+  //   setSocket(socket);
+  // };
 
-export default Layout
+  const { title } = props;
+  return <div>p{title}</div>;
+};
+
+export default Layout;
