@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import { USER_CONNECTED } from "../Events";
+import { USER_CONNECTED, LOGOUT } from "../Events";
 //const socketUrl = "http://localhost:3001";
 
 const Layout = props => {
@@ -15,16 +15,28 @@ const Layout = props => {
     let socket = io(":3001");
     socket.on("news", function(data) {
       console.log(data);
+      socket.emit(USER_CONNECTED, { my: "userData" });
       setSocket(data);
-      socket.emit("my other event", { my: "data" });
     });
   };
 
-  const setUserHandler = user => {
-    socket.emit(USER_CONNECTED);
-    setUser(user);
+  const logout = () => {
+    setUser(null);
+    socket.emit(LOGOUT);
   };
-  return <div>p{title}</div>;
+
+  /*
+  userData: {id:number, name:String}
+  */
+  const setUserHandler = userData => {
+    socket.emit(USER_CONNECTED, { user: userData });
+    setUser(userData);
+  };
+  return (
+    <div>
+      <LoginForm socket={socket} setUserHandler={setUserHandler} />
+    </div>
+  );
 };
 
 export default Layout;
