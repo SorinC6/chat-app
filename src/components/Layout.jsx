@@ -1,26 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
+import { USER_CONNECTED } from "../Events";
 //const socketUrl = "http://localhost:3001";
 
 const Layout = props => {
-  // const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const [user, setUser] = useState(null);
+  const { title } = props;
   useEffect(() => {
-    var socket = io(":3001");
-    socket.on("news", function(data) {
-      console.log(data);
-      socket.emit("my other event", { my: "data" });
-    });
+    initSocket();
   }, []);
 
-  // const initSocket = () => {
-  //   const socket = io(socketUrl);
-  //   socket.on("connect: ", () => {
-  //     console.log("Connected socket react comp");
-  //   });
-  //   setSocket(socket);
-  // };
+  const initSocket = () => {
+    let socket = io(":3001");
+    socket.on("news", function(data) {
+      console.log(data);
+      setSocket(data);
+      socket.emit("my other event", { my: "data" });
+    });
+  };
 
-  const { title } = props;
+  const setUserHandler = user => {
+    socket.emit(USER_CONNECTED);
+    setUser(user);
+  };
   return <div>p{title}</div>;
 };
 
