@@ -10,6 +10,7 @@ const LoginForm = ({ socket, setUserHandler }) => {
     if (isUser) {
       setError("User already exists");
     } else {
+      setError("");
       setUserHandler(user);
     }
   };

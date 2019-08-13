@@ -14,11 +14,10 @@ const Layout = props => {
 
   const initSocket = () => {
     let socket = io(":3001");
-    socket.on("news", function(data) {
-      console.log(data);
+    socket.on("news", function() {
       socket.emit(USER_CONNECTED, { my: "userData" });
-      setSocket(data);
     });
+    setSocket(socket);
   };
 
   const logout = () => {
@@ -29,9 +28,9 @@ const Layout = props => {
   /*
   userData: {id:number, name:String}
   */
-  const setUserHandler = userData => {
-    socket.emit(USER_CONNECTED, { user: userData });
-    setUser(userData);
+  const setUserHandler = user => {
+    socket.emit(USER_CONNECTED, user);
+    setUser(user);
   };
   return (
     <div>
