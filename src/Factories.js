@@ -1,4 +1,5 @@
-import uuidv4 from "uuid/v4";
+// import uuidv4 from "uuid/v4";
+const uuidv4 = require("uuid/v4");
 
 const createUser = ({ name = "" } = {}) => {
   return {
@@ -28,4 +29,10 @@ const createChat = ({ messages = [], name = "Comunity", users = [] } = {}) => {
 
 const getTime = date => {
   return `${date.getHours()}:${("0" + date.getMinuyes()).slice(-1)}`;
+};
+
+module.exports = {
+  createUser,
+  createChat,
+  createMessage
 };
