@@ -6,7 +6,6 @@ const ChatContent = ({ user, logout, socket }) => {
   const [activeChat, setActiveChat] = useState(null);
   return (
     <>
-      <p>Chat Content </p>
       <SideBar
         logout={logout}
         chats={chats}
