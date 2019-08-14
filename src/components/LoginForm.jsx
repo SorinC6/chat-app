@@ -35,9 +35,9 @@ const LoginForm = ({ socket, setUserHandler }) => {
           onChange={e => setUsername(e.target.value)}
           value={username}
         />
-        {error && <h2>{error}</h2>}
         <button type="submit">Enter Chat</button>
       </form>
+      {error && <h2>{error}</h2>}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { USER_CONNECTED, LOGOUT } from "../Events";
 import LoginForm from "./LoginForm";
+import ChatContent from "./ChatContent";
 //const socketUrl = "http://localhost:3001";
 
 const Layout = props => {
@@ -32,9 +33,14 @@ const Layout = props => {
     socket.emit(USER_CONNECTED, user);
     setUser(user);
   };
+  console.log("User", user);
   return (
     <div>
-      <LoginForm socket={socket} setUserHandler={setUserHandler} />
+      {!user ? (
+        <LoginForm socket={socket} setUserHandler={setUserHandler} />
+      ) : (
+        <ChatContent user={user} socket={socket} logout={logout} />
+      )}
     </div>
   );
 };
