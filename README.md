@@ -1,8 +1,8 @@
-##ReactJS and Socket.io Chat App 
+## ReactJS and Socket.io Chat App 
 
 
 
-###Getting Started
+### Getting Started
 
 First you'll need to fork or download the respository.
 
