@@ -1,36 +1,12 @@
-const app = require("express")();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
-const { VERIFY_USER, USER_CONNECTED } = require("../Events");
-const { createChat, createUser, createMessage } = require("../Factories");
-const { isUser, addUser } = require("./socketManager");
+var app = require('http').createServer()
+var io = module.exports.io = require('socket.io')(app)
 
-let connectedUsers = {};
+const PORT = process.env.PORT || 3231
 
-app.get("/", (req, res) => {
-  res.send("<h1>Hello from the Server : Woop Woop</h1>");
-});
+const SocketManager = require('./SocketManager')
 
-io.on("connection", function(socket) {
-  console.log("user connected succesfullty", socket.id);
+io.on('connection', SocketManager)
 
-  //verify username
-  socket.on(VERIFY_USER, (username, callback) => {
-    if (isUser(connectedUsers, username)) {
-      callback({ isUser: true, user: null });
-    } else {
-      callback({ isUser: false, user: createUser({ name: username }) });
-    }
-  });
-
-  socket.on(USER_CONNECTED, username => {
-    connectedUsers = addUser(connectedUsers, username);
-    socket.username = username;
-    socket.emit(USER_CONNECTED, connectedUsers);
-    console.log("Connected Users", connectedUsers);
-  });
-});
-
-http.listen(3001, () => {
-  console.log("server listening on port 3001 ");
-});
+app.listen(PORT, ()=>{
+	console.log("Connected to port:" + PORT);
+})
